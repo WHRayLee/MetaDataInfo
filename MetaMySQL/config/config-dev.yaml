@@ -1,0 +1,15 @@
+Version: v0.1
+Name: MetaMySQL
+MySQLInfo:
+  # MySQL 的连接地址
+  Host: 127.0.0.1
+  # MySQL 访问的端口
+  Port: 3306
+  # MySQL 登录用户
+  User: root
+  # MySQL 密码
+  Password: 12345678
+  # DB
+  DB: test
+  # 字符集
+  Charset: utf8mb4

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+message EngineInfo {
+  string Engine = 1;
+  string Support = 2;
+  string Comment = 3;
+}
+message EngineAllReq {}
+message EngineRsp {
+    repeated EngineInfo EngineList = 1;
+}

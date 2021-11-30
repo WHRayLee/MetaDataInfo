@@ -1,0 +1,1 @@
+select mysql_version from sys.version

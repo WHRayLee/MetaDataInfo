@@ -1,0 +1,21 @@
+syntax = "proto3";
+option go_package = "./proto/MetaMySQL";
+
+import "Version.proto";
+import "Engine.proto";
+import "View.proto";
+
+service MetaMySQLService {
+  // 获取 MySQL 版本信息
+  rpc GetMySQLVersion(VersionReq) returns (VersionRsp);
+  // 获取 MySQL 引擎信息
+  rpc GetMySQLEngine(EngineAllReq) returns (EngineRsp);
+  // 获取 全量的 View 信息
+  rpc GetMySQLView(ViewAllReq) returns (ViewRsp);
+  // 获取指定Schema的View 信息
+  rpc GetMySQLSchemaView(ViewSchemaReq) returns (ViewRsp);
+  // 获取指定view名称的view信息
+  rpc GetMySQLTableView(ViewTableReq) returns (ViewRsp);
+  // 获取指定schema和指定view名称的view信息
+  rpc GetMySQLSchemaTableView(ViewSchemaAndTableReq) returns (ViewRsp);
+}

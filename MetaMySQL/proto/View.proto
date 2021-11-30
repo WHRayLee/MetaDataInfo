@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+message ViewInfo {
+  string tableSchema = 1;
+  string TableName = 2;
+  string ViewDefinition = 3;
+}
+
+message ViewAllReq {}
+message ViewSchemaReq {
+  string Schema = 1;
+}
+message ViewTableReq {
+  string Table = 1;
+}
+message ViewSchemaAndTableReq {
+  string Schema = 1;
+  string Table = 2;
+}
+message ViewRsp {
+  repeated ViewInfo ViewList = 1;
+}

@@ -1,0 +1,7 @@
+Version: v0.1
+Name: MetaMySQL
+RedisInfo:
+  # Mysql的连接地址
+  Host:"127.0.0.1"
+  # Redis访问的端口
+  Port:6379

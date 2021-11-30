@@ -1,0 +1,8 @@
+Name: MetaInfo
+RedisInfo:
+  Host: 127.0.0.1
+  Port: 6379
+  DB: 0
+  DialTimeout: 5
+  ReadTimeout: 5
+  WriteTimeout: 5
