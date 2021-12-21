@@ -1,0 +1,5 @@
+package Initialize
+
+func Init() {
+
+}

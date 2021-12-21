@@ -1,0 +1,862 @@
+
+state 0
+	$accept: .Start $end 
+	insertTableInfoStmt: .    (3)
+
+	INSERT  shift 4
+	.  reduce 3 (src line 56)
+
+	InsertSelectStmt  goto 2
+	insertTableInfoStmt  goto 3
+	Start  goto 1
+
+state 1
+	$accept:  Start.$end 
+
+	$end  accept
+	.  error
+
+
+state 2
+	Start:  InsertSelectStmt.    (1)
+
+	.  reduce 1 (src line 38)
+
+
+state 3
+	InsertSelectStmt:  insertTableInfoStmt.insertColumnListStmt selectColumnListStmt selectTableInfoStmt joinList whereConditionList groupByList orderByList 
+	insertColumnListStmt: .    (13)
+
+	'('  shift 6
+	.  reduce 13 (src line 115)
+
+	insertColumnListStmt  goto 5
+
+state 4
+	insertTableInfoStmt:  INSERT.INTO basicTableInfoStmt 
+
+	INTO  shift 7
+	.  error
+
+
+state 5
+	InsertSelectStmt:  insertTableInfoStmt insertColumnListStmt.selectColumnListStmt selectTableInfoStmt joinList whereConditionList groupByList orderByList 
+	selectColumnListStmt: .    (17)
+
+	SELECT  shift 9
+	.  reduce 17 (src line 139)
+
+	selectColumnListStmt  goto 8
+
+state 6
+	insertColumnListStmt:  '('.insertColumnFiledList ')' 
+
+	Identifier  shift 11
+	.  error
+
+	insertColumnFiledList  goto 10
+
+state 7
+	insertTableInfoStmt:  INSERT INTO.basicTableInfoStmt 
+
+	Identifier  shift 13
+	.  error
+
+	basicTableInfoStmt  goto 12
+
+state 8
+	InsertSelectStmt:  insertTableInfoStmt insertColumnListStmt selectColumnListStmt.selectTableInfoStmt joinList whereConditionList groupByList orderByList 
+	selectTableInfoStmt: .    (6)
+
+	FROM  shift 15
+	.  reduce 6 (src line 71)
+
+	selectTableInfoStmt  goto 14
+
+state 9
+	selectColumnListStmt:  SELECT.ColumnListOpt 
+	ColumnListOpt: .    (19)
+
+	Identifier  shift 19
+	SUM  shift 21
+	AVG  shift 22
+	COUNT  shift 24
+	MAX  shift 23
+	MIN  shift 25
+	ASTERISK  shift 17
+	.  reduce 19 (src line 149)
+
+	ColumnListOpt  goto 16
+	ColumnField  goto 18
+	AggStmt  goto 20
+
+state 10
+	insertColumnListStmt:  '(' insertColumnFiledList.')' 
+	insertColumnFiledList:  insertColumnFiledList.',' Identifier 
+
+	')'  shift 26
+	','  shift 27
+	.  error
+
+
+state 11
+	insertColumnFiledList:  Identifier.    (15)
+
+	.  reduce 15 (src line 126)
+
+
+state 12
+	insertTableInfoStmt:  INSERT INTO basicTableInfoStmt.    (4)
+
+	.  reduce 4 (src line 61)
+
+
+state 13
+	basicTableInfoStmt:  Identifier.'.' Identifier '.' Identifier AliasOpt 
+	basicTableInfoStmt:  Identifier.'.' Identifier AliasOpt 
+	basicTableInfoStmt:  Identifier.AliasOpt 
+	AliasOpt: .    (10)
+
+	Identifier  shift 30
+	AS  shift 31
+	'.'  shift 28
+	.  reduce 10 (src line 103)
+
+	AliasOpt  goto 29
+
+state 14
+	InsertSelectStmt:  insertTableInfoStmt insertColumnListStmt selectColumnListStmt selectTableInfoStmt.joinList whereConditionList groupByList orderByList 
+
+	LEFT  shift 35
+	RIGHT  shift 36
+	INNER  shift 37
+	CROSS  shift 38
+	NATURAL  shift 39
+	.  error
+
+	joinTypeOpt  goto 34
+	joinList  goto 32
+	joinStmtOpt  goto 33
+
+state 15
+	selectTableInfoStmt:  FROM.basicTableInfoStmt 
+
+	Identifier  shift 13
+	.  error
+
+	basicTableInfoStmt  goto 40
+
+state 16
+	selectColumnListStmt:  SELECT ColumnListOpt.    (18)
+	ColumnListOpt:  ColumnListOpt.',' ColumnField 
+
+	','  shift 41
+	.  reduce 18 (src line 144)
+
+
+state 17
+	ColumnListOpt:  ASTERISK.    (20)
+
+	.  reduce 20 (src line 154)
+
+
+state 18
+	ColumnListOpt:  ColumnField.    (21)
+
+	.  reduce 21 (src line 161)
+
+
+state 19
+	ColumnField:  Identifier.AliasOpt 
+	ColumnField:  Identifier.'.' Identifier AliasOpt 
+	AliasOpt: .    (10)
+
+	Identifier  shift 30
+	AS  shift 31
+	'.'  shift 43
+	.  reduce 10 (src line 103)
+
+	AliasOpt  goto 42
+
+state 20
+	ColumnField:  AggStmt.'(' Identifier '.' Identifier ')' AliasOpt 
+	ColumnField:  AggStmt.'(' Identifier '.' ASTERISK ')' AliasOpt 
+	ColumnField:  AggStmt.'(' Identifier ')' AliasOpt 
+	ColumnField:  AggStmt.'(' ASTERISK ')' AliasOpt 
+
+	'('  shift 44
+	.  error
+
+
+state 21
+	AggStmt:  SUM.    (29)
+
+	.  reduce 29 (src line 217)
+
+
+state 22
+	AggStmt:  AVG.    (30)
+
+	.  reduce 30 (src line 219)
+
+
+state 23
+	AggStmt:  MAX.    (31)
+
+	.  reduce 31 (src line 220)
+
+
+state 24
+	AggStmt:  COUNT.    (32)
+
+	.  reduce 32 (src line 221)
+
+
+state 25
+	AggStmt:  MIN.    (33)
+
+	.  reduce 33 (src line 222)
+
+
+state 26
+	insertColumnListStmt:  '(' insertColumnFiledList ')'.    (14)
+
+	.  reduce 14 (src line 121)
+
+
+state 27
+	insertColumnFiledList:  insertColumnFiledList ','.Identifier 
+
+	Identifier  shift 45
+	.  error
+
+
+state 28
+	basicTableInfoStmt:  Identifier '.'.Identifier '.' Identifier AliasOpt 
+	basicTableInfoStmt:  Identifier '.'.Identifier AliasOpt 
+
+	Identifier  shift 46
+	.  error
+
+
+state 29
+	basicTableInfoStmt:  Identifier AliasOpt.    (9)
+
+	.  reduce 9 (src line 95)
+
+
+state 30
+	AliasOpt:  Identifier.    (11)
+
+	.  reduce 11 (src line 107)
+
+
+state 31
+	AliasOpt:  AS.Identifier 
+
+	Identifier  shift 47
+	.  error
+
+
+state 32
+	InsertSelectStmt:  insertTableInfoStmt insertColumnListStmt selectColumnListStmt selectTableInfoStmt joinList.whereConditionList groupByList orderByList 
+	joinList:  joinList.joinStmtOpt 
+	whereConditionList: .    (51)
+
+	LEFT  shift 35
+	RIGHT  shift 36
+	INNER  shift 37
+	CROSS  shift 38
+	NATURAL  shift 39
+	WHERE  shift 50
+	.  reduce 51 (src line 311)
+
+	joinTypeOpt  goto 34
+	whereConditionList  goto 48
+	joinStmtOpt  goto 49
+
+state 33
+	joinList:  joinStmtOpt.    (35)
+
+	.  reduce 35 (src line 229)
+
+
+state 34
+	joinStmtOpt:  joinTypeOpt.basicTableInfoStmt ConditionList 
+
+	Identifier  shift 13
+	.  error
+
+	basicTableInfoStmt  goto 51
+
+state 35
+	joinTypeOpt:  LEFT.OUTER JOIN 
+	joinTypeOpt:  LEFT.JOIN 
+
+	OUTER  shift 52
+	JOIN  shift 53
+	.  error
+
+
+state 36
+	joinTypeOpt:  RIGHT.OUTER JOIN 
+	joinTypeOpt:  RIGHT.JOIN 
+
+	OUTER  shift 54
+	JOIN  shift 55
+	.  error
+
+
+state 37
+	joinTypeOpt:  INNER.JOIN 
+
+	JOIN  shift 56
+	.  error
+
+
+state 38
+	joinTypeOpt:  CROSS.JOIN 
+
+	JOIN  shift 57
+	.  error
+
+
+state 39
+	joinTypeOpt:  NATURAL.JOIN 
+
+	JOIN  shift 58
+	.  error
+
+
+state 40
+	selectTableInfoStmt:  FROM basicTableInfoStmt.    (5)
+
+	.  reduce 5 (src line 66)
+
+
+state 41
+	ColumnListOpt:  ColumnListOpt ','.ColumnField 
+
+	Identifier  shift 19
+	SUM  shift 21
+	AVG  shift 22
+	COUNT  shift 24
+	MAX  shift 23
+	MIN  shift 25
+	.  error
+
+	ColumnField  goto 59
+	AggStmt  goto 20
+
+state 42
+	ColumnField:  Identifier AliasOpt.    (23)
+
+	.  reduce 23 (src line 171)
+
+
+state 43
+	ColumnField:  Identifier '.'.Identifier AliasOpt 
+
+	Identifier  shift 60
+	.  error
+
+
+state 44
+	ColumnField:  AggStmt '('.Identifier '.' Identifier ')' AliasOpt 
+	ColumnField:  AggStmt '('.Identifier '.' ASTERISK ')' AliasOpt 
+	ColumnField:  AggStmt '('.Identifier ')' AliasOpt 
+	ColumnField:  AggStmt '('.ASTERISK ')' AliasOpt 
+
+	Identifier  shift 61
+	ASTERISK  shift 62
+	.  error
+
+
+state 45
+	insertColumnFiledList:  insertColumnFiledList ',' Identifier.    (16)
+
+	.  reduce 16 (src line 133)
+
+
+state 46
+	basicTableInfoStmt:  Identifier '.' Identifier.'.' Identifier AliasOpt 
+	basicTableInfoStmt:  Identifier '.' Identifier.AliasOpt 
+	AliasOpt: .    (10)
+
+	Identifier  shift 30
+	AS  shift 31
+	'.'  shift 63
+	.  reduce 10 (src line 103)
+
+	AliasOpt  goto 64
+
+state 47
+	AliasOpt:  AS Identifier.    (12)
+
+	.  reduce 12 (src line 111)
+
+
+state 48
+	InsertSelectStmt:  insertTableInfoStmt insertColumnListStmt selectColumnListStmt selectTableInfoStmt joinList whereConditionList.groupByList orderByList 
+	groupByList: .    (57)
+
+	GROUP  shift 66
+	.  reduce 57 (src line 352)
+
+	groupByList  goto 65
+
+state 49
+	joinList:  joinList joinStmtOpt.    (34)
+
+	.  reduce 34 (src line 224)
+
+
+state 50
+	whereConditionList:  WHERE.whereConditionListInfo 
+
+	Identifier  shift 71
+	AND  shift 70
+	.  error
+
+	leftCondition  goto 69
+	whereConditionListInfo  goto 67
+	whereConditionStmtOpt  goto 68
+
+state 51
+	joinStmtOpt:  joinTypeOpt basicTableInfoStmt.ConditionList 
+	ConditionList: .    (44)
+
+	.  reduce 44 (src line 276)
+
+	ConditionList  goto 72
+
+state 52
+	joinTypeOpt:  LEFT OUTER.JOIN 
+
+	JOIN  shift 73
+	.  error
+
+
+state 53
+	joinTypeOpt:  LEFT JOIN.    (38)
+
+	.  reduce 38 (src line 251)
+
+
+state 54
+	joinTypeOpt:  RIGHT OUTER.JOIN 
+
+	JOIN  shift 74
+	.  error
+
+
+state 55
+	joinTypeOpt:  RIGHT JOIN.    (40)
+
+	.  reduce 40 (src line 259)
+
+
+state 56
+	joinTypeOpt:  INNER JOIN.    (41)
+
+	.  reduce 41 (src line 263)
+
+
+state 57
+	joinTypeOpt:  CROSS JOIN.    (42)
+
+	.  reduce 42 (src line 267)
+
+
+state 58
+	joinTypeOpt:  NATURAL JOIN.    (43)
+
+	.  reduce 43 (src line 271)
+
+
+state 59
+	ColumnListOpt:  ColumnListOpt ',' ColumnField.    (22)
+
+	.  reduce 22 (src line 166)
+
+
+state 60
+	ColumnField:  Identifier '.' Identifier.AliasOpt 
+	AliasOpt: .    (10)
+
+	Identifier  shift 30
+	AS  shift 31
+	.  reduce 10 (src line 103)
+
+	AliasOpt  goto 75
+
+state 61
+	ColumnField:  AggStmt '(' Identifier.'.' Identifier ')' AliasOpt 
+	ColumnField:  AggStmt '(' Identifier.'.' ASTERISK ')' AliasOpt 
+	ColumnField:  AggStmt '(' Identifier.')' AliasOpt 
+
+	')'  shift 77
+	'.'  shift 76
+	.  error
+
+
+state 62
+	ColumnField:  AggStmt '(' ASTERISK.')' AliasOpt 
+
+	')'  shift 78
+	.  error
+
+
+state 63
+	basicTableInfoStmt:  Identifier '.' Identifier '.'.Identifier AliasOpt 
+
+	Identifier  shift 79
+	.  error
+
+
+state 64
+	basicTableInfoStmt:  Identifier '.' Identifier AliasOpt.    (8)
+
+	.  reduce 8 (src line 87)
+
+
+state 65
+	InsertSelectStmt:  insertTableInfoStmt insertColumnListStmt selectColumnListStmt selectTableInfoStmt joinList whereConditionList groupByList.orderByList 
+	orderByList: .    (62)
+
+	.  reduce 62 (src line 377)
+
+	orderByList  goto 80
+
+state 66
+	groupByList:  GROUP.BY groupByListStmt 
+
+	BY  shift 81
+	.  error
+
+
+state 67
+	whereConditionList:  WHERE whereConditionListInfo.    (52)
+	whereConditionListInfo:  whereConditionListInfo.whereConditionStmtOpt 
+
+	Identifier  shift 71
+	AND  shift 70
+	.  reduce 52 (src line 319)
+
+	leftCondition  goto 69
+	whereConditionStmtOpt  goto 82
+
+state 68
+	whereConditionListInfo:  whereConditionStmtOpt.    (53)
+
+	.  reduce 53 (src line 323)
+
+
+state 69
+	whereConditionStmtOpt:  leftCondition.eq rightCondition 
+
+	eq  shift 83
+	.  error
+
+
+state 70
+	whereConditionStmtOpt:  AND.leftCondition eq rightCondition 
+
+	Identifier  shift 71
+	.  error
+
+	leftCondition  goto 84
+
+state 71
+	leftCondition:  Identifier.    (49)
+
+	.  reduce 49 (src line 305)
+
+
+state 72
+	joinStmtOpt:  joinTypeOpt basicTableInfoStmt ConditionList.    (36)
+	ConditionList:  ConditionList.ConditionStmtOpt 
+
+	ON  shift 87
+	AND  shift 88
+	.  reduce 36 (src line 234)
+
+	OnAndOpt  goto 86
+	ConditionStmtOpt  goto 85
+
+state 73
+	joinTypeOpt:  LEFT OUTER JOIN.    (37)
+
+	.  reduce 37 (src line 246)
+
+
+state 74
+	joinTypeOpt:  RIGHT OUTER JOIN.    (39)
+
+	.  reduce 39 (src line 255)
+
+
+state 75
+	ColumnField:  Identifier '.' Identifier AliasOpt.    (24)
+
+	.  reduce 24 (src line 179)
+
+
+state 76
+	ColumnField:  AggStmt '(' Identifier '.'.Identifier ')' AliasOpt 
+	ColumnField:  AggStmt '(' Identifier '.'.ASTERISK ')' AliasOpt 
+
+	Identifier  shift 89
+	ASTERISK  shift 90
+	.  error
+
+
+state 77
+	ColumnField:  AggStmt '(' Identifier ')'.AliasOpt 
+	AliasOpt: .    (10)
+
+	Identifier  shift 30
+	AS  shift 31
+	.  reduce 10 (src line 103)
+
+	AliasOpt  goto 91
+
+state 78
+	ColumnField:  AggStmt '(' ASTERISK ')'.AliasOpt 
+	AliasOpt: .    (10)
+
+	Identifier  shift 30
+	AS  shift 31
+	.  reduce 10 (src line 103)
+
+	AliasOpt  goto 92
+
+state 79
+	basicTableInfoStmt:  Identifier '.' Identifier '.' Identifier.AliasOpt 
+	AliasOpt: .    (10)
+
+	Identifier  shift 30
+	AS  shift 31
+	.  reduce 10 (src line 103)
+
+	AliasOpt  goto 93
+
+state 80
+	InsertSelectStmt:  insertTableInfoStmt insertColumnListStmt selectColumnListStmt selectTableInfoStmt joinList whereConditionList groupByList orderByList.    (2)
+
+	.  reduce 2 (src line 43)
+
+
+state 81
+	groupByList:  GROUP BY.groupByListStmt 
+
+	Identifier  shift 96
+	.  error
+
+	groupByListStmt  goto 94
+	groupByStmtOpt  goto 95
+
+state 82
+	whereConditionListInfo:  whereConditionListInfo whereConditionStmtOpt.    (54)
+
+	.  reduce 54 (src line 328)
+
+
+state 83
+	whereConditionStmtOpt:  leftCondition eq.rightCondition 
+
+	Identifier  shift 98
+	.  error
+
+	rightCondition  goto 97
+
+state 84
+	whereConditionStmtOpt:  AND leftCondition.eq rightCondition 
+
+	eq  shift 99
+	.  error
+
+
+state 85
+	ConditionList:  ConditionList ConditionStmtOpt.    (45)
+
+	.  reduce 45 (src line 284)
+
+
+state 86
+	ConditionStmtOpt:  OnAndOpt.leftCondition eq rightCondition 
+
+	Identifier  shift 71
+	.  error
+
+	leftCondition  goto 100
+
+state 87
+	OnAndOpt:  ON.    (47)
+
+	.  reduce 47 (src line 299)
+
+
+state 88
+	OnAndOpt:  AND.    (48)
+
+	.  reduce 48 (src line 301)
+
+
+state 89
+	ColumnField:  AggStmt '(' Identifier '.' Identifier.')' AliasOpt 
+
+	')'  shift 101
+	.  error
+
+
+state 90
+	ColumnField:  AggStmt '(' Identifier '.' ASTERISK.')' AliasOpt 
+
+	')'  shift 102
+	.  error
+
+
+state 91
+	ColumnField:  AggStmt '(' Identifier ')' AliasOpt.    (27)
+
+	.  reduce 27 (src line 203)
+
+
+state 92
+	ColumnField:  AggStmt '(' ASTERISK ')' AliasOpt.    (28)
+
+	.  reduce 28 (src line 210)
+
+
+state 93
+	basicTableInfoStmt:  Identifier '.' Identifier '.' Identifier AliasOpt.    (7)
+
+	.  reduce 7 (src line 77)
+
+
+state 94
+	groupByList:  GROUP BY groupByListStmt.    (58)
+	groupByListStmt:  groupByListStmt.',' groupByStmtOpt 
+
+	','  shift 103
+	.  reduce 58 (src line 357)
+
+
+state 95
+	groupByListStmt:  groupByStmtOpt.    (60)
+
+	.  reduce 60 (src line 366)
+
+
+state 96
+	groupByStmtOpt:  Identifier.    (61)
+
+	.  reduce 61 (src line 370)
+
+
+state 97
+	whereConditionStmtOpt:  leftCondition eq rightCondition.    (55)
+
+	.  reduce 55 (src line 333)
+
+
+state 98
+	rightCondition:  Identifier.    (50)
+
+	.  reduce 50 (src line 308)
+
+
+state 99
+	whereConditionStmtOpt:  AND leftCondition eq.rightCondition 
+
+	Identifier  shift 98
+	.  error
+
+	rightCondition  goto 104
+
+state 100
+	ConditionStmtOpt:  OnAndOpt leftCondition.eq rightCondition 
+
+	eq  shift 105
+	.  error
+
+
+state 101
+	ColumnField:  AggStmt '(' Identifier '.' Identifier ')'.AliasOpt 
+	AliasOpt: .    (10)
+
+	Identifier  shift 30
+	AS  shift 31
+	.  reduce 10 (src line 103)
+
+	AliasOpt  goto 106
+
+state 102
+	ColumnField:  AggStmt '(' Identifier '.' ASTERISK ')'.AliasOpt 
+	AliasOpt: .    (10)
+
+	Identifier  shift 30
+	AS  shift 31
+	.  reduce 10 (src line 103)
+
+	AliasOpt  goto 107
+
+state 103
+	groupByListStmt:  groupByListStmt ','.groupByStmtOpt 
+
+	Identifier  shift 96
+	.  error
+
+	groupByStmtOpt  goto 108
+
+state 104
+	whereConditionStmtOpt:  AND leftCondition eq rightCondition.    (56)
+
+	.  reduce 56 (src line 342)
+
+
+state 105
+	ConditionStmtOpt:  OnAndOpt leftCondition eq.rightCondition 
+
+	Identifier  shift 98
+	.  error
+
+	rightCondition  goto 109
+
+state 106
+	ColumnField:  AggStmt '(' Identifier '.' Identifier ')' AliasOpt.    (25)
+
+	.  reduce 25 (src line 187)
+
+
+state 107
+	ColumnField:  AggStmt '(' Identifier '.' ASTERISK ')' AliasOpt.    (26)
+
+	.  reduce 26 (src line 195)
+
+
+state 108
+	groupByListStmt:  groupByListStmt ',' groupByStmtOpt.    (59)
+
+	.  reduce 59 (src line 361)
+
+
+state 109
+	ConditionStmtOpt:  OnAndOpt leftCondition eq rightCondition.    (46)
+
+	.  reduce 46 (src line 289)
+
+
+32 terminals, 28 nonterminals
+63 grammar rules, 110/16000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+77 working sets used
+memory: parser 48/240000
+12 extra closures
+100 shift entries, 1 exceptions
+45 goto entries
+3 entries saved by goto default
+Optimizer space used: output 127/240000
+127 table entries, 0 zero
+maximum spread: 32, maximum offset: 105
